@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>תוצאות בדיקה</title>
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+    .ok { background: #e6ffed; border: 1px solid #b7ebc6; padding: .75rem; border-radius: 10px; }
+    .warn { background: #fff7e6; border: 1px solid #ffe58f; padding: .75rem; border-radius: 10px; }
+    .err { background: #fff1f0; border: 1px solid #ffa39e; padding: .75rem; border-radius: 10px; }
+    ul { line-height: 1.7; }
+    a { color: #111; }
+  </style>
+</head>
+<body>
+  <h1>תוצאות</h1>
+
+  {% if summary %}
+  <div class="ok">
+    <strong>תקציר:</strong>
+    <div>Trim: {{summary.trim}} | Bleed: {{summary.bleed_mm}} מ״מ | נייר: {{summary.paper_type}} | עמודים: {{summary.pages}} | שדרה מוערכת: {{summary.spine_mm}} מ״מ</div>
+  </div>
+  {% endif %}
+
+  {% if checks and checks|length %}
+  <h2>בדיקות שעברו</h2>
+  <ul class="ok">
+    {% for c in checks %}<li>{{c}}</li>{% endfor %}
+  </ul>
+  {% endif %}
+
+  {% if warnings and warnings|length %}
+  <h2>אזהרות / המלצות</h2>
+  <ul class="warn">
+    {% for w in warnings %}<li>{{w}}</li>{% endfor %}
+  </ul>
+  {% endif %}
+
+  {% if errors and errors|length %}
+  <h2>שגיאות</h2>
+  <ul class="err">
+    {% for e in errors %}<li>{{e}}</li>{% endfor %}
+  </ul>
+  {% else %}
+  <div class="ok"><strong>מעולה!</strong> לא נמצאו שגיאות קריטיות.</div>
+  {% endif %}
+
+  <p><a href="/">↩ חזרה</a></p>
+</body>
+</html>

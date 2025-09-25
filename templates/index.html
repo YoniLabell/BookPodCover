@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>בדיקת קבצים ל-BookPod</title>
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 1rem; margin-bottom: 1rem; }
+    label { display: block; margin: .5rem 0 .25rem; }
+    input, select { width: 100%; padding: .5rem; }
+    button { padding: .75rem 1rem; border: 0; border-radius: 10px; cursor: pointer; }
+    .primary { background: #111; color: white; }
+  </style>
+</head>
+<body>
+  <h1>בדיקת קבצי PDF לספר (BookPod)</h1>
+  <form action="/validate" method="post" enctype="multipart/form-data" class="card">
+    <h2>קובץ תוכן</h2>
+    <label>קובץ PDF:</label>
+    <input type="file" name="content_pdf" accept="application/pdf" required />
+
+    <h2>קובץ כריכה</h2>
+    <label>קובץ PDF (עמוד אחד: קדמי+שדרה+אחורי):</label>
+    <input type="file" name="cover_pdf" accept="application/pdf" required />
+
+    <div class="card">
+      <h2>הגדרות</h2>
+      <label>גודל Trim:</label>
+      <select name="trim" required>
+        {% for t in trim_sizes %}
+          <option value="{{t}}">{{t}}</option>
+        {% endfor %}
+      </select>
+
+      <label>גלישה (Bleed) במ״מ:</label>
+      <select name="bleed_mm" required>
+        <option value="3.2">3.2</option>
+        <option value="0">0 (ללא גלישה)</option>
+      </select>
+
+      <label>סוג נייר (לחישוב שדרה):</label>
+      <select name="paper_type" required>
+        {% for p in paper_types %}
+          <option value="{{p}}">{{p}}</option>
+        {% endfor %}
+      </select>
+
+      <label>מספר עמודים (אופציונלי – אם לא תזין, נקרא מה-PDF):</label>
+      <input type="number" name="content_pages" min="1" placeholder="למשל 200" />
+    </div>
+
+    <button class="primary" type="submit">בדיקה</button>
+  </form>
+</body>
+</html>
